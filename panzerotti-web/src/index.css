@@ -1,0 +1,114 @@
+@import "tailwindcss";
+
+/*
+  Paleta PROVISIONAL de panadería (tonos de corteza, trigo y crema).
+  No es la identidad oficial de la marca: cuando se tenga el logotipo y los colores
+  oficiales, basta con cambiar estas variables.
+*/
+@theme {
+  --font-display: "Fraunces", Georgia, serif;
+  --font-sans: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --color-crust-950: #2b1608;
+  --color-crust-900: #3d1f0d;
+  --color-crust-800: #5a2d14;
+  --color-crust-700: #7a3e1d;
+  --color-crust-600: #98502a;
+  --color-gold-300: #f8d98d;
+  --color-gold-400: #f3b94d;
+  --color-gold-500: #e39f2a;
+  --color-cream-50: #fffaf1;
+  --color-cream-100: #fbf4e8;
+  --color-cream-200: #f3e6cf;
+  --color-cream-300: #e8d3ad;
+  --color-terra-500: #c4572b;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
+  }
+  body {
+    font-family: var(--font-sans);
+    background: var(--color-cream-100);
+    color: var(--color-crust-950);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-gold-500);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-bold
+      transition duration-300 ease-out hover:-translate-y-0.5 active:translate-y-0;
+  }
+  .btn-primary {
+    @apply bg-crust-700 text-cream-50 shadow-lg shadow-crust-900/20 hover:bg-crust-800;
+  }
+  .btn-gold {
+    @apply bg-gold-400 text-crust-950 shadow-lg shadow-gold-500/30 hover:bg-gold-300;
+  }
+  .btn-ghost {
+    @apply border-2 border-crust-700/30 text-crust-800 hover:border-crust-700 hover:bg-crust-700 hover:text-cream-50;
+  }
+  .btn-ghost-light {
+    @apply border-2 border-cream-50/40 text-cream-50 hover:bg-cream-50 hover:text-crust-900;
+  }
+  .btn-disabled {
+    @apply cursor-not-allowed bg-cream-200 text-crust-800/50 hover:translate-y-0;
+  }
+  .section {
+    @apply mx-auto w-full max-w-6xl px-5 py-20 sm:px-8 md:py-28;
+  }
+  .eyebrow {
+    @apply text-xs font-bold uppercase tracking-[0.22em] text-terra-500;
+  }
+  .card {
+    @apply rounded-3xl border border-crust-700/10 bg-cream-50 shadow-sm shadow-crust-900/5
+      transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-crust-900/10;
+  }
+}
+
+/* Animaciones de entrada ligeras (se desactivan si el usuario prefiere menos movimiento) */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+  transition-delay: var(--d, 0ms);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes floaty {
+  0%, 100% { transform: translateY(0) rotate(var(--r, 0deg)); }
+  50% { transform: translateY(-10px) rotate(var(--r, 0deg)); }
+}
+.floaty { animation: floaty 7s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .floaty { animation: none; }
+  * { transition-duration: 0.01ms !important; }
+}
+
+/* Textura sutil de grano para dar calidez sin usar imágenes pesadas */
+.grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(122, 62, 29, 0.08) 1px, transparent 1px);
+  background-size: 18px 18px;
+  pointer-events: none;
+}
